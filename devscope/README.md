@@ -1,12 +1,32 @@
-# React + Vite
+# 🔍 DevFinder – GitHub Profile Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DevFinder is a sleek and responsive single-page web app built with **Vite.js**, **React**, and **Tailwind CSS** that allows users to search for any GitHub username and view their profile details, top repositories, and language usage—instantly and interactively.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔎 **GitHub Integration** – Fetches live data from the GitHub API including profile info and top repositories.
+- 🌗 **Dark/Light Theme Toggle** – Smooth UI switch with Tailwind’s `dark:` class and persistent state.
+- 📊 **Language Usage Chart** – Visual representation of repository languages using interactive charts.
+- ⚡ **Smooth Animations** – Beautiful entry transitions powered by Framer Motion.
+- 📱 **Fully Responsive** – Mobile-friendly and works seamlessly across all screen sizes.
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend**: React, Tailwind CSS, Vite.js
+- **Animations**: Framer Motion
+- **Icons**: Lucide React & React Icons
+- **API**: GitHub REST API v3
+
+## 📷 Preview
+
+![Live](https://devscope.vercel.app/)
+
+## 💻 Getting Started
+
+### Clone the repo
+
+```bash
+git clone https://github.com/kshitij/devscope.git
+cd devscope
+
+Made with ❤️ by Kshitij Ratnawat
