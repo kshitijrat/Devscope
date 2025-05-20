@@ -2,6 +2,7 @@ import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { motion } from 'framer-motion';
 
+
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
 const LanguageChart = ({ repos }) => {
@@ -15,7 +16,7 @@ const LanguageChart = ({ repos }) => {
     return Object.entries(languages).map(([name, value]) => ({ name, value }));
   }, [repos]);
 
-  if (!languageData.length) return null;
+  if (!languageData.length) return null;  
 
   return (
     <motion.div

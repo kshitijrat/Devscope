@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearch, placeholder = 'Search GitHub username...' }) => {
   const [username, setUsername] = useState('');
 
   const handleSubmit = (e) => {
@@ -12,22 +12,16 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-3xl">
-      <div className="relative flex items-center">
-        <Search className="absolute left-4 text-blue-500 w-5 h-5" />
+    <form onSubmit={handleSubmit} className="w-full">
+      <div className="relative">
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="Search GitHub username..."
-          className="w-full py-3 pl-12 pr-4 text-gray-700 bg-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-200"
+          placeholder={placeholder}
+          className="w-full px-4 py-2 pl-10 text-gray-900 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
         />
-        <button
-          type="submit"
-          className="absolute right-2 px-4 py-1 text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-colors"
-        >
-          Search
-        </button>
+        <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
       </div>
     </form>
   );

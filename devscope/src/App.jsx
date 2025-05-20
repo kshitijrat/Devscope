@@ -6,21 +6,23 @@ import ProfileCard from './components/ProfileCard';
 import RepoList from './components/RepoList';
 import ThemeToggle from './components/ThemeToggle';
 import LanguageChart from './components/LanguageChart';
+import CompareProfiles from './components/CompareProfiles';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme === 'dark') return true;
     if (storedTheme === 'light') return false;
-
-    // Default to system preference
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [profile, setProfile] = useState(null);
-  const [repos, setRepos] = useState([]);
+  const [profile1, setProfile1] = useState(null);
+  const [profile2, setProfile2] = useState(null);
+  const [repos1, setRepos1] = useState([]);
+  const [repos2, setRepos2] = useState([]);
+  const [compareMode, setCompareMode] = useState(false);
 
   useEffect(() => {
     if (darkMode) {
@@ -32,7 +34,7 @@ function App() {
     }
   }, [darkMode]);
 
-  const fetchUserData = async (username) => {
+  const fetchUserData = async (username, isSecondProfile = false) => {
     setLoading(true);
     setError(null);
 
@@ -49,14 +51,32 @@ function App() {
       const profileData = await profileResponse.json();
       const reposData = await reposResponse.json();
 
-      setProfile(profileData);
-      setRepos(reposData);
+      if (isSecondProfile) {
+        setProfile2(profileData);
+        setRepos2(reposData);
+        setCompareMode(true);
+      } else {
+        setProfile1(profileData);
+        setRepos1(reposData);
+        setCompareMode(false);
+      }
     } catch (err) {
       setError(err.message);
-      setProfile(null);
-      setRepos([]);
+      if (isSecondProfile) {
+        setProfile2(null);
+        setRepos2([]);
+      } else {
+        setProfile1(null);
+        setRepos1([]);
+      }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCompare = () => {
+    if (profile1 && !profile2) {
+      setCompareMode(true);
     }
   };
 
@@ -80,8 +100,16 @@ function App() {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
+          className="flex flex-col md:flex-row gap-4"
         >
-          <SearchBar onSearch={fetchUserData} />
+          <div className="flex-1">
+            <SearchBar onSearch={(username) => fetchUserData(username, false)} placeholder="Search first profile..." />
+          </div>
+          {profile1 && (
+            <div className="flex-1">
+              <SearchBar onSearch={(username) => fetchUserData(username, true)} placeholder="Search second profile..." />
+            </div>
+          )}
         </motion.div>
 
         <AnimatePresence>
@@ -107,16 +135,33 @@ function App() {
             </motion.div>
           )}
 
-          {profile && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <ProfileCard profile={profile} />
-              <LanguageChart repos={repos} />
-              <RepoList repos={repos} />
-            </motion.div>
+          {compareMode && profile1 && profile2 ? (
+            <CompareProfiles profile1={profile1} profile2={profile2} />
+          ) : (
+            <>
+              {profile1 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <ProfileCard profile={profile1} />
+                  <LanguageChart repos={repos1} />
+                  <RepoList repos={repos1} />
+                </motion.div>
+              )}
+              {profile2 && !compareMode && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <ProfileCard profile={profile2} />
+                  <LanguageChart repos={repos2} />
+                  <RepoList repos={repos2} />
+                </motion.div>
+              )}
+            </>
           )}
         </AnimatePresence>
       </div>
